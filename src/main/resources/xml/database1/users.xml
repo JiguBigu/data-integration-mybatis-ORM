@@ -2,7 +2,7 @@
 <mapper>
     <resultMap type="intergration.entity.User" >
         <id jdbcType="BIGINT">id</id>
-        <userName jdbcType="VARCHAR" >userName</userName>
+        <userName jdbcType="VARCHAR" >userName123</userName>
         <userSex jdbcType="VARCHAR">sex</userSex>
         <className jdbcType="VARCHAR">class</className>
     </resultMap>

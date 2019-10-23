@@ -1,10 +1,17 @@
 package intergration.util;
 
+import com.alibaba.fastjson.JSONObject;
+import intergration.Service.UserService;
 import intergration.entity.User;
+import org.xml.sax.SAXException;
 
+import javax.xml.parsers.ParserConfigurationException;
+import java.io.IOException;
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author Jigubigu
@@ -91,5 +98,29 @@ public class DBUtil {
 
     public static void setDataBase(String dataBase){
         URL = "jdbc:mysql://localhost:3306/"+ dataBase + "?serverTimezone=UTC&useUnicode=true&characterEncoding=utf-8&useSSL=true";
+    }
+
+    public static void main(String[] args) throws IOException {
+        UserService userService = new UserService();
+
+        Map<String, Object> modelMap = new HashMap<String, Object>();
+        List<User> users = null;
+        try {
+            users = userService.getAllUser();
+        } catch (ParserConfigurationException e) {
+            e.printStackTrace();
+        } catch (SAXException e) {
+            e.printStackTrace();
+        }
+        modelMap.put("user", users);
+        if(users == null){
+            modelMap.put("success", false);
+        }else {
+            modelMap.put("success", true);
+        }
+
+        //数据转换成json向浏览器发送
+        JSONObject data = new JSONObject(modelMap);
+        System.out.println(data);
     }
 }

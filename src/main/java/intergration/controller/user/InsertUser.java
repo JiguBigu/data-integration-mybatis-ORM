@@ -27,7 +27,6 @@ public class InsertUser extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        super.doPost(req, resp);
         User user = new User(req.getParameter("id"), req.getParameter("userName"),
                 req.getParameter("userSex"), req.getParameter("className"));
         String databaseName = req.getParameter("databaseName");

@@ -27,7 +27,6 @@ public class GetLessonById extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        super.doPost(req, resp);
         String id = req.getParameter("id");
 
         LessonService lessonService = new LessonService();
@@ -57,7 +56,6 @@ public class GetLessonById extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        super.doGet(req, resp);
         doPost(req, resp);
     }
 }

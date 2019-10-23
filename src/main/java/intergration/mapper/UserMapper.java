@@ -54,6 +54,8 @@ public class UserMapper {
                      );
                 }
                 userList.add(user);
+//                statement.close();
+//                connection.close();
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -165,20 +167,20 @@ public class UserMapper {
         return isUpdate;
     }
 
-    public static void main(String[] args) throws ParserConfigurationException, SAXException, IOException, IllegalAccessException {
-        UserMapper mapper = new UserMapper();
-        //查询所有用户
-        System.out.println(mapper.selectAllUser());
-        //通过id查询
-        System.out.println(mapper.selectUserById("1"));
-        //插入
-        User user = new User();
-        user.setId("2");
-        user.setUserName("miaomiaomiao");
-        user.setClassName("======");
-        user.setUserSex("MAN");
-        System.out.println(mapper.updateUser(user));
-        //删除
-        System.out.println(mapper.deleteUser("1112"));
-    }
+//    public static void main(String[] args) throws ParserConfigurationException, SAXException, IOException, IllegalAccessException {
+//        UserMapper mapper = new UserMapper();
+//        //查询所有用户
+//        System.out.println(mapper.selectAllUser());
+//        //通过id查询
+//        System.out.println(mapper.selectUserById("1"));
+//        //插入
+//        User user = new User();
+//        user.setId("2");
+//        user.setUserName("miaomiaomiao");
+//        user.setClassName("======");
+//        user.setUserSex("MAN");
+//        System.out.println(mapper.updateUser(user));
+//        //删除
+//        System.out.println(mapper.deleteUser("1112"));
+//    }
 }

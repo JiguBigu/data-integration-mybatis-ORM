@@ -26,9 +26,8 @@ public class DeleteUserById extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        super.doPost(req, resp);
-        String id = req.getParameter("id");
-
+        String id = req.getParameter("UserId");
+        System.out.println("????????????:" + id);
         UserService userService = new UserService();
         Map<String, Object> modelMap = new HashMap<String, Object>();
         try {
@@ -52,7 +51,6 @@ public class DeleteUserById extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        super.doGet(req, resp);
         doPost(req, resp);
     }
 }

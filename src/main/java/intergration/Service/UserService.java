@@ -1,6 +1,7 @@
 package intergration.Service;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import intergration.entity.User;
 import intergration.mapper.UserMapper;
 import intergration.util.DBUtil;
@@ -143,4 +144,12 @@ public class UserService {
         return false;
     }
 
+    public static void main(String[] args) throws IOException, SAXException, ParserConfigurationException {
+        UserService userService = new UserService();
+        Map<String, Object> map = new HashMap<String, Object>();
+        map.put("success", true);
+        map.put("user", userService.getAllUser());
+        JSONObject json = new JSONObject(map);
+        System.out.println(json);
+    }
 }

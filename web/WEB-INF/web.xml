@@ -5,11 +5,14 @@
          version="4.0">
 
 <!--    <servlet>-->
-<!--        <servlet-name>GetAllStudent</servlet-name>-->
+<!--        <servlet-name>GetAllUser</servlet-name>-->
 <!--        <servlet-class>intergration.controller.user.GetAllUser</servlet-class>-->
 <!--    </servlet>-->
 <!--    <servlet-mapping>-->
-<!--        <servlet-name>GetAllStudent</servlet-name>-->
-<!--        <url-pattern>/student/getAllStudent</url-pattern>-->
+<!--        <servlet-name>GetAllUser</servlet-name>-->
+<!--        <url-pattern>/getAllUser</url-pattern>-->
 <!--    </servlet-mapping>-->
+
+
+
 </web-app>

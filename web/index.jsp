@@ -7,10 +7,93 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
-  <head>
-    <title>$Title$</title>
-  </head>
-  <body>
-  $END$
-  </body>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>数据集成</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <link href="../../assets/css/ie10-viewport-bug-workaround.css" rel="stylesheet">
+    <!-- Custom styles for this template -->
+    <link href="dashboard.css" rel="stylesheet">
+    <link href="css/info.css" rel="stylesheet">
+</head>
+<body>
+
+
+<div class="container-fluid">
+    <div class="row" >
+        <div class="col-sm-3 col-md-2 sidebar" style="height: 100%">
+            <ul class="nav nav-sidebar">
+                <li style="font-size: large;text-align: left;margin:5%;"><span>应用集成</span></li>
+                <li class="active"><a href="#">首页<span class="sr-only">(current)</span></a></li>
+                <li><a href="index.jsp">学生信息管理</a></li>
+                <li><a href="test.jsp">课程信息管理</a></li>
+            </ul>
+        </div>
+
+        <div id="main">
+            <div>
+                <h2 class="sub-header">学生信息</h2>
+            </div>
+
+            <div class="alert alert-success" id="success-info">
+                <button type="button" class="close" onclick="hideSuccessInfo()"><span aria-hidden="true">&times;</span></button>
+                <strong>Success：</strong> 查询数据成功
+            </div>
+            <div class="alert alert-success" id="error-info">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span>
+                </button>
+                <strong>Error：</strong> 操作发生错误
+            </div>
+
+            <div class="show">
+                <div class="form-inline">
+                    <button id="select_student" type="button" class="btn btn-info" onclick="getAllUser()">查询学生信息
+                    </button>
+                    <button id="insert_student" type="button" class="btn btn-info" onclick="">插入信息</button>
+                </div>
+                <div class="table-responsive">
+                    <table class="table table-striped">
+                        <thead>
+                        <tr>
+                            <th>学号</th>
+                            <th>姓名</th>
+                            <th>性别</th>
+                            <th>班级</th>
+                            <th>编辑</th>
+                        </tr>
+                        </thead>
+                        <tbody id="showData">
+                        <tr>
+                            <td>暂无数据</td>
+                            <td>暂无数据</td>
+                            <td>暂无数据</td>
+                            <td>暂无数据</td>
+                            <td>
+                                <button id="" type="button" class="btn btn-info" onclick="deleteStuednt(this)">删除信息
+                                </button>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Placed at the end of the document so the pages load faster -->
+<script src="https://cdn.bootcss.com/jquery/1.12.4/jquery.min.js"></script>
+<script>window.jQuery || document.write('<script src="../../assets/js/vendor/jquery.min.js"><\/script>')</script>
+<script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<!-- Just to make our placeholder images work. Don't actually copy the next line! -->
+<script src="../../assets/js/vendor/holder.min.js"></script>
+<!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+<script src="../../assets/js/ie10-viewport-bug-workaround.js"></script>
+<script src="js/user.js"></script>
+</body>
 </html>

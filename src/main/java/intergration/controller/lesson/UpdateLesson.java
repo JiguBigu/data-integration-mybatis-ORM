@@ -27,7 +27,6 @@ public class UpdateLesson extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        super.doPost(req, resp);
         Lesson lesson = new Lesson(req.getParameter("lessonId"), req.getParameter("lessonName"),
                 req.getParameter("teacherName"), req.getParameter("hours"));
 
