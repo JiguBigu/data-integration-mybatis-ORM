@@ -20,8 +20,8 @@ import java.util.List;
 public class LessonMapper {
 
 
-    private String dataBase = "test1";
-    private String xmlPath = "G:\\spring-boot-examples-master\\spring-boot-mybatis\\dataintepration2\\src\\main\\resources\\xml\\database1\\lesson.xml";
+    private String dataBase = null;
+    private String xmlPath = null;
     private String tableName = "lesson";
 
     public void setDataBase(String dataBase) {
@@ -164,9 +164,5 @@ public class LessonMapper {
         return isUpdate;
     }
 
-    public static void main(String[] args) throws ParserConfigurationException, SAXException, IOException, IllegalAccessException {
-        LessonMapper lessonMapper = new LessonMapper();
-        //查询
-        System.out.println(lessonMapper.selectAllLesson());
-    }
+
 }

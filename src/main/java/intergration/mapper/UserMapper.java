@@ -20,18 +20,10 @@ import java.util.List;
  */
 public class UserMapper {
 
-
-    private String dataBase = "test1";
-    private String xmlPath = "G:\\spring-boot-examples-master\\spring-boot-mybatis\\dataintepration2\\src\\main\\resources\\xml\\database1\\users.xml";
-    private String tableName = "users";
-
-    public void setDataBase(String dataBase) {
-        this.dataBase = dataBase;
-    }
-
-    public void setXmlPath(String xmlPath) {
-        this.xmlPath = xmlPath;
-    }
+    private String dataBase = null;
+    private String xmlPath = null;
+    private static final String tableName = "users";
+    String a = User.class.getName();
 
     public List<User> selectAllUser() throws IOException, SAXException, ParserConfigurationException {
         List<User> userList = new ArrayList<User>();
@@ -167,20 +159,13 @@ public class UserMapper {
         return isUpdate;
     }
 
-//    public static void main(String[] args) throws ParserConfigurationException, SAXException, IOException, IllegalAccessException {
-//        UserMapper mapper = new UserMapper();
-//        //查询所有用户
-//        System.out.println(mapper.selectAllUser());
-//        //通过id查询
-//        System.out.println(mapper.selectUserById("1"));
-//        //插入
-//        User user = new User();
-//        user.setId("2");
-//        user.setUserName("miaomiaomiao");
-//        user.setClassName("======");
-//        user.setUserSex("MAN");
-//        System.out.println(mapper.updateUser(user));
-//        //删除
-//        System.out.println(mapper.deleteUser("1112"));
-//    }
+
+    public void setDataBase(String dataBase) {
+        this.dataBase = dataBase;
+    }
+
+    public void setXmlPath(String xmlPath) {
+        this.xmlPath = xmlPath;
+    }
+
 }

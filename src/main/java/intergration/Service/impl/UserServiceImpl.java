@@ -4,6 +4,8 @@ import com.alibaba.fastjson.JSONObject;
 import intergration.Service.UserService;
 import intergration.entity.User;
 import intergration.mapper.UserMapper;
+import intergration.util.DBUtil;
+import intergration.util.MapperUtil;
 import org.xml.sax.SAXException;
 
 import javax.xml.parsers.ParserConfigurationException;
@@ -23,17 +25,26 @@ public class UserServiceImpl implements UserService {
     /**
      * 数据库名
      */
-    private String[] dataBases = {"test1", "test2"};
+    private List<String> dataBases = null;
     /**
      * 对应数据库的xml文件路径
      */
-    private String[] xmlPath = {
-            "G:\\spring-boot-examples-master\\spring-boot-mybatis\\dataintepration2\\src\\main\\resources\\xml\\database1\\users.xml",
-            "G:\\spring-boot-examples-master\\spring-boot-mybatis\\dataintepration2\\src\\main\\resources\\xml\\database2\\users.xml"
-    };
+    private List<String> xmlPath = null;
+    private static final String TABLE_NAME = "user";
 
-    public UserServiceImpl() {
+    public UserServiceImpl(){
+        MapperUtil mapperUtil = new MapperUtil();
         this.userMapper = new UserMapper();
+        try {
+            this.dataBases = mapperUtil.getDataBases();
+            this.xmlPath = mapperUtil.getXmlPath(TABLE_NAME);
+        } catch (ParserConfigurationException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (SAXException e) {
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -45,9 +56,9 @@ public class UserServiceImpl implements UserService {
      */
     public List<User> getAllUser() throws ParserConfigurationException, SAXException, IOException {
         List<User> userList = new ArrayList<User>();
-        for(int i = 0; i < dataBases.length; i++){
-            userMapper.setDataBase(dataBases[i]);
-            userMapper.setXmlPath(xmlPath[i]);
+        for(int i = 0; i < dataBases.size(); i++){
+            userMapper.setDataBase(dataBases.get(i));
+            userMapper.setXmlPath(xmlPath.get(i));
             userList.addAll(userMapper.selectAllUser());
         }
         return userList;
@@ -63,9 +74,9 @@ public class UserServiceImpl implements UserService {
      */
     public User getUserById(String id) throws ParserConfigurationException, SAXException, IOException {
         User user = null;
-        for(int i = 0; i < dataBases.length; i++){
-            userMapper.setDataBase(dataBases[i]);
-            userMapper.setXmlPath(xmlPath[i]);
+        for(int i = 0; i < dataBases.size(); i++){
+            userMapper.setDataBase(dataBases.get(i));
+            userMapper.setXmlPath(xmlPath.get(i));
             user = userMapper.selectUserById(id);
             if(user.getId() != null && user.getId().length() > 0){
                 return user;
@@ -85,11 +96,11 @@ public class UserServiceImpl implements UserService {
      */
     public boolean insertUser(User user, String databaseName) throws ParserConfigurationException, SAXException, IOException {
         if (databaseName == null || databaseName.length() <= 0){
-            databaseName = dataBases[0];
+            databaseName = dataBases.get(0);
         }
-        for(int i = 0; i < xmlPath.length; i++){
-            if(databaseName.equals(dataBases[i])){
-                userMapper.setXmlPath(xmlPath[i]);
+        for(int i = 0; i < dataBases.size(); i++){
+            if(databaseName.equals(dataBases.get(i))){
+                userMapper.setXmlPath(xmlPath.get(i));
                 userMapper.setDataBase(databaseName);
                 if(userMapper.insertUser(user) > 0){
                     return  true;
@@ -98,7 +109,7 @@ public class UserServiceImpl implements UserService {
                 }
             }
         }
-        return false;
+        throw new RuntimeException("无匹配的数据库");
     }
 
     /**
@@ -114,9 +125,9 @@ public class UserServiceImpl implements UserService {
         if (user.getId() == null || user.getId().length() <= 0){
             throw new RuntimeException("更新错误：未传入用户id");
         }
-        for(int i = 0; i < dataBases.length; i++){
-            userMapper.setDataBase(dataBases[i]);
-            userMapper.setXmlPath(xmlPath[i]);
+        for(int i = 0; i < dataBases.size(); i++){
+            userMapper.setDataBase(dataBases.get(i));
+            userMapper.setXmlPath(xmlPath.get(i));
             if(userMapper.updateUser(user) > 0){
                 return true;
             }
@@ -136,22 +147,13 @@ public class UserServiceImpl implements UserService {
         if (id == null || id.length() <= 0){
             throw new RuntimeException("删除错误：未传入用户id");
         }
-        for(int i = 0; i < dataBases.length; i++){
-            userMapper.setDataBase(dataBases[i]);
-            userMapper.setXmlPath(xmlPath[i]);
+        for(int i = 0; i < dataBases.size(); i++){
+            userMapper.setDataBase(dataBases.get(i));
+            userMapper.setXmlPath(xmlPath.get(i));
             if(userMapper.deleteUser(id) > 0){
                 return true;
             }
         }
         return false;
-    }
-
-    public static void main(String[] args) throws IOException, SAXException, ParserConfigurationException {
-        UserServiceImpl userServiceImpl = new UserServiceImpl();
-        Map<String, Object> map = new HashMap<String, Object>();
-        map.put("success", true);
-        map.put("user", userServiceImpl.getAllUser());
-        JSONObject json = new JSONObject(map);
-        System.out.println(json);
     }
 }

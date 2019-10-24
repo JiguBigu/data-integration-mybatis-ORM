@@ -25,8 +25,8 @@ public class LessonServiceImpl implements LessonService {
      * 对应数据库的xml文件路径
      */
     private String[] xmlPath = {
-            "G:\\spring-boot-examples-master\\spring-boot-mybatis\\dataintepration2\\src\\main\\resources\\xml\\database1\\lesson.xml",
-            "G:\\spring-boot-examples-master\\spring-boot-mybatis\\dataintepration2\\src\\main\\resources\\xml\\database2\\lesson.xml"
+            "/xml/database1/lesson.xml",
+            "/xml/database2/lesson.xml"
     };
 
     public LessonServiceImpl() {

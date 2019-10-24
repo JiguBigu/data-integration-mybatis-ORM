@@ -3,8 +3,12 @@ package intergration.util;
 import com.alibaba.fastjson.JSONObject;
 import intergration.Service.impl.UserServiceImpl;
 import intergration.entity.User;
+import org.w3c.dom.NamedNodeMap;
+import org.w3c.dom.Node;
 import org.xml.sax.SAXException;
 
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;
 import java.sql.*;
@@ -100,27 +104,5 @@ public class DBUtil {
         URL = "jdbc:mysql://localhost:3306/"+ dataBase + "?serverTimezone=UTC&useUnicode=true&characterEncoding=utf-8&useSSL=true";
     }
 
-    public static void main(String[] args) throws IOException {
-        UserServiceImpl userServiceImpl = new UserServiceImpl();
 
-        Map<String, Object> modelMap = new HashMap<String, Object>();
-        List<User> users = null;
-        try {
-            users = userServiceImpl.getAllUser();
-        } catch (ParserConfigurationException e) {
-            e.printStackTrace();
-        } catch (SAXException e) {
-            e.printStackTrace();
-        }
-        modelMap.put("user", users);
-        if(users == null){
-            modelMap.put("success", false);
-        }else {
-            modelMap.put("success", true);
-        }
-
-        //数据转换成json向浏览器发送
-        JSONObject data = new JSONObject(modelMap);
-        System.out.println(data);
-    }
 }

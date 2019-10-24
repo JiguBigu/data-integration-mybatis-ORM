@@ -1,12 +1,16 @@
 package intergration.util;
 
-import org.w3c.dom.Node;
+import intergration.entity.User;
+import org.w3c.dom.*;
 import org.xml.sax.SAXException;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;
+import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author Jigubigu
@@ -15,6 +19,7 @@ import java.io.IOException;
  */
 public class MapperUtil {
     private String xmlFilePath = null;
+    private String settingPath = "/setting.xml";
 
     /**
      * 设置需要查询的xml表的文件路径
@@ -26,13 +31,14 @@ public class MapperUtil {
 
     public String getColumnName(String property) throws ParserConfigurationException, IOException, SAXException {
         //相对路径解析
+        InputStream instream = this.getClass().getResourceAsStream(xmlFilePath);
         String columnName = null;
         // 创建文档构建器工厂(采用单例模式)
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
         // 创建文档构建器
         DocumentBuilder builder = factory.newDocumentBuilder();
         // 由xml文件创建文档对象
-        org.w3c.dom.Document document = builder.parse(xmlFilePath);
+        org.w3c.dom.Document document = builder.parse(instream);
         // 获得根节点<mapper>
         org.w3c.dom.Element root = document.getDocumentElement();
         // 获得一级子节点列表
@@ -65,20 +71,22 @@ public class MapperUtil {
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
         // 创建文档构建器
         DocumentBuilder builder = factory.newDocumentBuilder();
+        //相对路径解析
+        InputStream instream = this.getClass().getResourceAsStream(xmlFilePath);
         // 由xml文件创建文档对象
-        org.w3c.dom.Document document = builder.parse(xmlFilePath);
+        Document document = builder.parse(instream);
         // 获得根节点<mapper>
-        org.w3c.dom.Element root = document.getDocumentElement();
+        Element root = document.getDocumentElement();
         // 获得一级子节点列表
-        org.w3c.dom.NodeList firstLevelList = root.getChildNodes();
+        NodeList firstLevelList = root.getChildNodes();
         for(int i = 0; i < firstLevelList.getLength(); i++){
             //获取一级子节点<resultMap>
-            org.w3c.dom.Node firstLevelNode = firstLevelList.item(i);
+            Node firstLevelNode = firstLevelList.item(i);
             if (firstLevelNode.getNodeType() == org.w3c.dom.Node.ELEMENT_NODE){
-                org.w3c.dom.NodeList secondLevelList = firstLevelNode.getChildNodes();
+                NodeList secondLevelList = firstLevelNode.getChildNodes();
                 for(int j = 0; j < secondLevelList.getLength(); j++){
                     //获取二级子节点<属性>
-                    org.w3c.dom.Node secondLevelNode = secondLevelList.item(j);
+                    Node secondLevelNode = secondLevelList.item(j);
                     //若xml中的标签与传入的属性名相同，则获取标签的值，结束循环
                     if (secondLevelNode.getNodeType() == org.w3c.dom.Node.ELEMENT_NODE) {
                         columnList.append(secondLevelNode.getTextContent() + ",");
@@ -90,10 +98,64 @@ public class MapperUtil {
         return columnList.toString();
     }
 
-//    public static void main(String[] args) throws IOException, SAXException, ParserConfigurationException {
-//        MapperUtil mapperUtil = new MapperUtil();
-//        mapperUtil.setXmlFilePath("G:\\spring-boot-examples-master\\spring-boot-mybatis\\dataintepration2\\src\\main\\resources\\xml\\database1\\users.xml");
-//        System.out.println(mapperUtil.getColumnName("userName"));
-//        System.out.println(mapperUtil.getColumnList());
-//    }
+    public List<String> getXmlPath(String tableName) throws ParserConfigurationException, IOException, SAXException {
+        List<String> xmlPath = new ArrayList<String>();
+        // 创建文档构建器工厂(采用单例模式)
+        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+        //相对路径解析
+        InputStream instream = this.getClass().getResourceAsStream(settingPath);
+        // 创建文档构建器
+        DocumentBuilder builder = factory.newDocumentBuilder();
+        // 由xml文件创建文档对象
+        Document document = builder.parse(instream);
+        // 获得根节点<setting>
+        Element root = document.getDocumentElement();
+        // 获得一级子节点列表
+        NodeList firstLevelList = root.getChildNodes();
+        for(int i = 0; i < firstLevelList.getLength(); i++){
+            //获取一级子节点<resultMap>
+            Node firstLevelNode = firstLevelList.item(i);
+            //判断子节点类型
+            if (firstLevelNode.getNodeType() == Node.ELEMENT_NODE) {
+                NodeList secondLevelList = firstLevelNode.getChildNodes();
+                for(int j = 0; j < secondLevelList.getLength(); j++){
+                    Node secondLevelNode = secondLevelList.item(j);
+                    if(secondLevelNode.getNodeType() == Node.ELEMENT_NODE &&
+                            tableName.equals(secondLevelNode.getAttributes().getNamedItem("id").getTextContent())){
+                        xmlPath.add(secondLevelNode.getTextContent());
+                    }
+                }
+            }
+        }
+        return xmlPath;
+    }
+
+    public List<String> getDataBases() throws ParserConfigurationException, IOException, SAXException {
+        List<String> databases = new ArrayList<String>();
+        // 创建文档构建器工厂(采用单例模式)
+        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+        //相对路径解析
+        InputStream instream = this.getClass().getResourceAsStream(settingPath);
+        // 创建文档构建器
+        DocumentBuilder builder = factory.newDocumentBuilder();
+        // 由xml文件创建文档对象
+        org.w3c.dom.Document document = builder.parse(instream);
+        // 获得根节点<setting>
+        org.w3c.dom.Element root = document.getDocumentElement();
+        // 获得一级子节点列表
+        org.w3c.dom.NodeList firstLevelList = root.getChildNodes();
+        for(int i = 0; i < firstLevelList.getLength(); i++){
+            //获取一级子节点<resultMap>
+            org.w3c.dom.Node firstLevelNode = firstLevelList.item(i);
+            //判断子节点类型
+            if (firstLevelNode.getNodeType() == org.w3c.dom.Node.ELEMENT_NODE) {
+                NamedNodeMap namedNodeMap = firstLevelNode.getAttributes();
+                //获取已知名为id的属性值
+                String id = namedNodeMap.getNamedItem("id").getTextContent();
+                databases.add(id);
+            }
+        }
+        return databases;
+    }
+
 }
