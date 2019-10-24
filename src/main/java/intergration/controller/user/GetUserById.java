@@ -29,7 +29,7 @@ public class GetUserById extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String id = req.getParameter("id");
+        String id = req.getParameter("userId");
 
         Map<String, Object> modelMap = new HashMap<String, Object>();
         User user = null;

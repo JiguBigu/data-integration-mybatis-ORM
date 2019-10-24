@@ -22,10 +22,80 @@
     <link href="css/info.css" rel="stylesheet">
 </head>
 <body>
+<%--插入信息弹框--%>
+<div class="modal fade" id="insertModal" tabindex="-1" role="dialog" aria-labelledby="insertModal" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×
+                </button>
+                <h4 class="modal-title" id="insertModalLabel">
+                    插入学生信息
+                </h4>
+            </div>
+            <div class="modal-body">
+                <label class="control-label">学号:</label>
+                <input type="text" id="userId" class="form-control">
+                <label class="control-label">姓名:</label>
+                <input type="text" id="userName" class="form-control">
+                <label class="control-label">性别：</label>
+                <input type="text" id="userSex" class="form-control">
+                <label class="control-label">班级：</label>
+                <input type="text" id="className" class="form-control">
 
+                <label class="control-label">目标数据库：</label>
+                <select id="option" class="form-control" style="width: 60%;">
+                    <option>test1</option>
+                    <option>test2</option>
+                </select>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">
+                    关闭
+                </button>
+                <button type="button" class="btn btn-primary" onclick="insertUser()">
+                    插入
+                </button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<%--编辑信息弹框--%>
+<div class="modal fade" id="modifyModal" tabindex="-2" role="dialog" aria-labelledby="modifyModal" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×
+                </button>
+                <h4 class="modal-title" id="modifyModalLabel">
+                    编辑学生信息
+                </h4>
+            </div>
+            <div class="modal-body">
+                <label class="control-label">学号:</label>
+                <input type="text" id="UserIdOfModify" class="form-control">
+                <label class="control-label">姓名:</label>
+                <input type="text" id="userNameOfModify" class="form-control">
+                <label class="control-label">性别：</label>
+                <input type="text" id="userSexOfModify" class="form-control">
+                <label class="control-label">班级：</label>
+                <input type="text" id="classNameOfModify" class="form-control">
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">
+                    关闭
+                </button>
+                <button type="button" class="btn btn-primary">
+                    修改信息
+                </button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
 
 <div class="container-fluid">
-    <div class="row" >
+    <div class="row">
         <div class="col-sm-3 col-md-2 sidebar" style="height: 100%">
             <ul class="nav nav-sidebar">
                 <li style="font-size: large;text-align: left;margin:5%;"><span>应用集成</span></li>
@@ -35,13 +105,15 @@
             </ul>
         </div>
 
+
         <div id="main">
             <div>
                 <h2 class="sub-header">学生信息</h2>
             </div>
 
             <div class="alert alert-success" id="success-info">
-                <button type="button" class="close" onclick="hideSuccessInfo()"><span aria-hidden="true">&times;</span></button>
+                <button type="button" class="close" onclick="hideSuccessInfo()"><span aria-hidden="true">&times;</span>
+                </button>
                 <strong>Success：</strong> 查询数据成功
             </div>
             <div class="alert alert-success" id="error-info">
@@ -54,7 +126,9 @@
                 <div class="form-inline">
                     <button id="select_student" type="button" class="btn btn-info" onclick="getAllUser()">查询学生信息
                     </button>
-                    <button id="insert_student" type="button" class="btn btn-info" onclick="">插入信息</button>
+                    <button id="insert_student" type="button" class="btn btn-info" data-target="#insertModal"
+                            data-toggle="modal" onclick="">插入信息
+                    </button>
                 </div>
                 <div class="table-responsive">
                     <table class="table table-striped">

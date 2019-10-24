@@ -29,7 +29,7 @@ public class UpdateUser extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        User user = new User(req.getParameter("id"), req.getParameter("userName"),
+        User user = new User(req.getParameter("userId"), req.getParameter("userName"),
                 req.getParameter("userSex"), req.getParameter("className"));
 
         Map<String, Object> modelMap = new HashMap<String, Object>();

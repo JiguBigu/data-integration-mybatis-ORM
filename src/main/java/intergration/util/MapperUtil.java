@@ -25,6 +25,7 @@ public class MapperUtil {
     }
 
     public String getColumnName(String property) throws ParserConfigurationException, IOException, SAXException {
+        //相对路径解析
         String columnName = null;
         // 创建文档构建器工厂(采用单例模式)
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
@@ -89,10 +90,10 @@ public class MapperUtil {
         return columnList.toString();
     }
 
-    public static void main(String[] args) throws IOException, SAXException, ParserConfigurationException {
-        MapperUtil mapperUtil = new MapperUtil();
-        mapperUtil.setXmlFilePath("G:\\spring-boot-examples-master\\spring-boot-mybatis\\dataintepration2\\src\\main\\resources\\xml\\database1\\users.xml");
-        System.out.println(mapperUtil.getColumnName("userName"));
-        System.out.println(mapperUtil.getColumnList());
-    }
+//    public static void main(String[] args) throws IOException, SAXException, ParserConfigurationException {
+//        MapperUtil mapperUtil = new MapperUtil();
+//        mapperUtil.setXmlFilePath("G:\\spring-boot-examples-master\\spring-boot-mybatis\\dataintepration2\\src\\main\\resources\\xml\\database1\\users.xml");
+//        System.out.println(mapperUtil.getColumnName("userName"));
+//        System.out.println(mapperUtil.getColumnList());
+//    }
 }

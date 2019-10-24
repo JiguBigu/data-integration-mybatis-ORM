@@ -13,7 +13,7 @@
 
 #error-info{
   width: 240px;
-  display: block;
+  display: none;
   margin-top: 15%;
   margin-left: 25%;
   position: absolute;
@@ -33,4 +33,7 @@
   font-size: medium;
   color: silver;
   text-align: left;
+}
+.form-control{
+  margin-bottom: 1%;
 }
