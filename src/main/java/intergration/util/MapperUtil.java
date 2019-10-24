@@ -158,4 +158,87 @@ public class MapperUtil {
         return databases;
     }
 
+    public List<IntegrationSetting> getIntegrationSettingList(String className) throws ParserConfigurationException, IOException, SAXException {
+        List<IntegrationSetting> integrationSettingList = new ArrayList<IntegrationSetting>();
+        //相对路径解析
+        InputStream instream = this.getClass().getResourceAsStream(settingPath);
+        // 创建文档构建器工厂(采用单例模式)
+        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+        // 创建文档构建器
+        DocumentBuilder builder = factory.newDocumentBuilder();
+        // 由xml文件创建文档对象
+        Document document = builder.parse(instream);
+        // 获得根节点<setting>
+        Element root = document.getDocumentElement();
+        // 获得一级子节点列表
+        NodeList firstLevelList = root.getChildNodes();
+        for(int i = 0; i < firstLevelList.getLength(); i++){
+            //创建集成配置类
+            IntegrationSetting setting = new IntegrationSetting();
+            //获取一级子节点<resultMap>
+            Node firstLevelNode = firstLevelList.item(i);
+            //判断子节点类型
+            if (firstLevelNode.getNodeType() == Node.ELEMENT_NODE) {
+                //设置数据库名
+                setting.databaseName = firstLevelNode.getAttributes().getNamedItem("id").getTextContent();
+                //获取二级子节点列表
+                NodeList secondLevelList = firstLevelNode.getChildNodes();
+                for(int j = 0; j < secondLevelList.getLength(); j++){
+                    Node secondLevelNode = secondLevelList.item(j);
+                    if(secondLevelNode.getNodeType() == Node.ELEMENT_NODE &&
+                            className.equals(secondLevelNode.getAttributes().getNamedItem("entityType").getTextContent())){
+                        //todo
+                        setting.tableName = secondLevelNode.getAttributes().getNamedItem("entityType").getTextContent();
+                        setting.xmlPath = secondLevelNode.getTextContent();
+                    }
+                }
+            }
+            integrationSettingList.add(setting);
+        }
+        return integrationSettingList;
+    }
+
+    public void run() throws ParserConfigurationException, IOException, SAXException {
+        List<IntegrationSetting> integrationSettingList = new ArrayList<IntegrationSetting>();
+        //相对路径解析
+        InputStream instream = this.getClass().getResourceAsStream(settingPath);
+        // 创建文档构建器工厂(采用单例模式)
+        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+        // 创建文档构建器
+        DocumentBuilder builder = factory.newDocumentBuilder();
+        // 由xml文件创建文档对象
+        Document document = builder.parse(instream);
+        // 获得根节点<setting>
+        Element root = document.getDocumentElement();
+        // 获得一级子节点列表
+        NodeList firstLevelList = root.getChildNodes();
+        for(int i = 0; i < firstLevelList.getLength(); i++){
+            //获取一级子节点<resultMap>
+            Node firstLevelNode = firstLevelList.item(i);
+            //判断子节点类型
+            if (firstLevelNode.getNodeType() == Node.ELEMENT_NODE) {
+                //创建集成配置类
+                IntegrationSetting setting = new IntegrationSetting();
+                //设置数据库名
+                setting.databaseName = firstLevelNode.getAttributes().getNamedItem("id").getTextContent();
+                //获取二级子节点列表
+                NodeList secondLevelList = firstLevelNode.getChildNodes();
+                for(int j = 0; j < secondLevelList.getLength(); j++){
+                    Node secondLevelNode = secondLevelList.item(j);
+                    if(secondLevelNode.getNodeType() == Node.ELEMENT_NODE &&
+                            "intergration.entity.User".equals(secondLevelNode.getAttributes().getNamedItem("entityType").getTextContent())){
+                        //todo
+                        setting.tableName = secondLevelNode.getAttributes().getNamedItem("entityType").getTextContent();
+                        setting.xmlPath = secondLevelNode.getTextContent();
+                    }
+                }
+                integrationSettingList.add(setting);
+            }
+        }
+        System.out.println(integrationSettingList);
+    }
+
+    public static void main(String[] args) throws IOException, SAXException, ParserConfigurationException {
+        new MapperUtil().run();
+    }
 }

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<setting>
+    <database id="test1">
+        <table id="user" entityType="intergration.entity.User">/xml/database1/user</table>
+        <table id="lesson" entityType="intergration.entity.Lesson">/xml/database1/lesson</table>
+    </database>
+
+    <database id="test2">
+        <table id="user" entityType="intergration.entity.User">/xml/database2/user</table>
+        <table id="lesson" entityType="intergration.entity.Lesson">/xml/database2/lesson</table>
+    </database>
+</setting>

@@ -77,29 +77,6 @@ public class DBUtil {
         return connection;
     }
 
-    public  List<User> selectAllStudentNoMapperByDataBase1(String sql) {
-        List<User> users = new ArrayList<User>();
-        connection = DBUtil.getConnect();
-        try {
-            Statement statement = connection.createStatement();
-            ResultSet resultSet =  statement.executeQuery(sql);
-            User user = null;
-            while (resultSet.next()){
-                user = new User();
-                user.setId(resultSet.getString(1));
-                user.setUserName(resultSet.getString(2));
-                user.setUserSex(resultSet.getString(3));
-                user.setClassName(resultSet.getString(4));
-                users.add(user);
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-            //logger.info("创建Statement失败");
-        }
-        return users;
-    }
-
-
     public static void setDataBase(String dataBase){
         URL = "jdbc:mysql://localhost:3306/"+ dataBase + "?serverTimezone=UTC&useUnicode=true&characterEncoding=utf-8&useSSL=true";
     }

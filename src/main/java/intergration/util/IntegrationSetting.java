@@ -18,4 +18,13 @@ public class IntegrationSetting {
      * 表述表的XML文件路径
      */
     public String xmlPath;
+
+    @Override
+    public String toString() {
+        return "IntegrationSetting{" +
+                "databaseName='" + databaseName + '\'' +
+                ", tableName='" + tableName + '\'' +
+                ", xmlPath='" + xmlPath + '\'' +
+                '}';
+    }
 }
