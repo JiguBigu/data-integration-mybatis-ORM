@@ -2,6 +2,7 @@ package intergration.controller.lesson;
 
 import com.alibaba.fastjson.JSON;
 import intergration.Service.LessonService;
+import intergration.Service.impl.LessonServiceImpl;
 import intergration.entity.Lesson;
 import org.xml.sax.SAXException;
 
@@ -29,7 +30,7 @@ public class GetLessonById extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String id = req.getParameter("id");
 
-        LessonService lessonService = new LessonService();
+        LessonService lessonService = new LessonServiceImpl();
         Map<String, Object> modelMap = new HashMap<String, Object>();
         Lesson lesson = null;
         try {
@@ -46,6 +47,8 @@ public class GetLessonById extends HttpServlet {
         modelMap.put("lesson", lesson);
 
         //数据转换成json向浏览器发送
+        resp.setCharacterEncoding("UTF-8");
+        resp.setContentType("text/html,charset=UTF-8");
         String outStr = JSON.toJSONString(modelMap);
         PrintWriter out = resp.getWriter();
         out.println(outStr);

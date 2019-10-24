@@ -2,6 +2,7 @@ package intergration.controller.user;
 
 import com.alibaba.fastjson.JSON;
 import intergration.Service.UserService;
+import intergration.Service.impl.UserServiceImpl;
 import org.xml.sax.SAXException;
 
 import javax.servlet.ServletException;
@@ -22,13 +23,14 @@ import java.util.Map;
  */
 @WebServlet("/user/deleteUserById")
 public class DeleteUserById extends HttpServlet {
+
     private boolean success = false;
+
+    private UserService userService = new UserServiceImpl();
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String id = req.getParameter("UserId");
-        System.out.println("????????????:" + id);
-        UserService userService = new UserService();
         Map<String, Object> modelMap = new HashMap<String, Object>();
         try {
             if(userService.deleteUserById(id)){

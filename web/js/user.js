@@ -2,7 +2,7 @@ function getAllUser() {
     $.ajax({
         type : 'post',	//传输类型
         async : false,	//同步执行
-        url : '/getAllUser',	//web.xml中注册的Servlet的url-pattern
+        url : '/user/getAllUser',	//web.xml中注册的Servlet的url-pattern
         data : {},
         dataType : 'json', //返回数据形式为json
         success : function(data) {
@@ -35,7 +35,7 @@ function getAllUserWithoutInfo() {
     $.ajax({
         type : 'post',	//传输类型
         async : false,	//同步执行
-        url : '/getAllUser',	//web.xml中注册的Servlet的url-pattern
+        url : '/user/getAllUser',	//web.xml中注册的Servlet的url-pattern
         data : {},
         dataType : 'json', //返回数据形式为json
         success : function(data) {

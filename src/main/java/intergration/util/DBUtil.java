@@ -1,7 +1,7 @@
 package intergration.util;
 
 import com.alibaba.fastjson.JSONObject;
-import intergration.Service.UserService;
+import intergration.Service.impl.UserServiceImpl;
 import intergration.entity.User;
 import org.xml.sax.SAXException;
 
@@ -101,12 +101,12 @@ public class DBUtil {
     }
 
     public static void main(String[] args) throws IOException {
-        UserService userService = new UserService();
+        UserServiceImpl userServiceImpl = new UserServiceImpl();
 
         Map<String, Object> modelMap = new HashMap<String, Object>();
         List<User> users = null;
         try {
-            users = userService.getAllUser();
+            users = userServiceImpl.getAllUser();
         } catch (ParserConfigurationException e) {
             e.printStackTrace();
         } catch (SAXException e) {

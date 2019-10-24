@@ -1,9 +1,8 @@
 package intergration.controller.user;
 
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import intergration.Service.UserService;
+import intergration.Service.impl.UserServiceImpl;
 import intergration.entity.User;
 import org.xml.sax.SAXException;
 
@@ -24,13 +23,13 @@ import java.util.Map;
  * @version 1.0
  * @date 2019/10/10 19:22
  */
-@WebServlet("/getAllUser")
+@WebServlet("/user/getAllUser")
 public class GetAllUser extends HttpServlet {
+
+    private UserService userService = new UserServiceImpl();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        UserService userService = new UserService();
-
         Map<String, Object> modelMap = new HashMap<String, Object>();
         List<User> users = null;
         try {

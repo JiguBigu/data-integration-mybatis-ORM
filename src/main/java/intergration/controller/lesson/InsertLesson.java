@@ -2,6 +2,7 @@ package intergration.controller.lesson;
 
 import com.alibaba.fastjson.JSON;
 import intergration.Service.LessonService;
+import intergration.Service.impl.LessonServiceImpl;
 import intergration.entity.Lesson;
 import org.xml.sax.SAXException;
 
@@ -32,7 +33,7 @@ public class InsertLesson extends HttpServlet {
         String databaseName = req.getParameter("databaseName");
 
         Map<String, Object> modelMap = new HashMap<String, Object>();
-        LessonService lessonService = new LessonService();
+        LessonService lessonService = new LessonServiceImpl();
         try {
             if(lessonService.insertLesson(lesson, databaseName)){
                 success = true;

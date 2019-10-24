@@ -2,6 +2,7 @@ package intergration.controller.user;
 
 import com.alibaba.fastjson.JSON;
 import intergration.Service.UserService;
+import intergration.Service.impl.UserServiceImpl;
 import intergration.entity.User;
 import org.xml.sax.SAXException;
 
@@ -24,6 +25,7 @@ import java.util.Map;
 @WebServlet("/user/insertUser")
 public class InsertUser extends HttpServlet {
     private boolean success = false;
+    private UserService userService = new UserServiceImpl();
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -32,7 +34,6 @@ public class InsertUser extends HttpServlet {
         String databaseName = req.getParameter("databaseName");
 
         Map<String, Object> modelMap = new HashMap<String, Object>();
-        UserService userService = new UserService();
         try {
             if(userService.insertUser(user, databaseName)){
                 success = true;

@@ -1,11 +1,13 @@
 package intergration.entity;
 
+import java.io.Serializable;
+
 /**
  * @author Jigubigu
  * @version 1.0
  * @date 2019/10/10 18:48
  */
-public class User {
+public class User implements Serializable {
     /**
      * 学号
      */

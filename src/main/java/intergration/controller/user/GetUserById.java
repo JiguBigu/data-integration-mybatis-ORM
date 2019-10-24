@@ -2,6 +2,7 @@ package intergration.controller.user;
 
 import com.alibaba.fastjson.JSON;
 import intergration.Service.UserService;
+import intergration.Service.impl.UserServiceImpl;
 import intergration.entity.User;
 import org.xml.sax.SAXException;
 
@@ -21,15 +22,15 @@ import java.util.Map;
  * @version 1.0
  * @date 2019/10/13 20:30
  */
-@WebServlet(name = "user/getUserById")
+@WebServlet("/user/getUserById")
 public class GetUserById extends HttpServlet {
     private boolean success = false;
+    private UserService userService = new UserServiceImpl();
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String id = req.getParameter("id");
 
-        UserService userService = new UserService();
         Map<String, Object> modelMap = new HashMap<String, Object>();
         User user = null;
         try {
@@ -46,9 +47,11 @@ public class GetUserById extends HttpServlet {
         modelMap.put("user", user);
 
         //数据转换成json向浏览器发送
-        String outStr = JSON.toJSONString(modelMap);
+        resp.setCharacterEncoding("UTF-8");
+        resp.setContentType("text/html,charset=UTF-8");
+        String data = JSON.toJSONString(modelMap);
         PrintWriter out = resp.getWriter();
-        out.println(outStr);
+        out.println(data);
         out.flush();
         out.close();
 

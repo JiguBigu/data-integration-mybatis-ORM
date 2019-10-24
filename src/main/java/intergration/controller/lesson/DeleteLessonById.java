@@ -2,6 +2,7 @@ package intergration.controller.lesson;
 
 import com.alibaba.fastjson.JSON;
 import intergration.Service.LessonService;
+import intergration.Service.impl.LessonServiceImpl;
 import org.xml.sax.SAXException;
 
 import javax.servlet.ServletException;
@@ -28,7 +29,7 @@ public class DeleteLessonById extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String id = req.getParameter("id");
 
-        LessonService lessonService = new LessonService();
+        LessonService lessonService = new LessonServiceImpl();
         Map<String, Object> modelMap = new HashMap<String, Object>();
         try {
             if(lessonService.deleteLessonById(id)){
