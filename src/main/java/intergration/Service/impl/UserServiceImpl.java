@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSONObject;
 import intergration.Service.UserService;
 import intergration.entity.User;
 import intergration.mapper.UserMapper;
+import intergration.share.IntegrationSetting;
 import intergration.util.DBUtil;
 import intergration.util.MapperUtil;
 import org.xml.sax.SAXException;
@@ -22,22 +23,14 @@ import java.util.Map;
  */
 public class UserServiceImpl implements UserService {
     private UserMapper userMapper;
-    /**
-     * 数据库名
-     */
-    private List<String> dataBases = null;
-    /**
-     * 对应数据库的xml文件路径
-     */
-    private List<String> xmlPath = null;
-    private static final String TABLE_NAME = "user";
+    private List<IntegrationSetting> integrationSettingList;
+    private static final String className = User.class.getName();
 
     public UserServiceImpl(){
         MapperUtil mapperUtil = new MapperUtil();
         this.userMapper = new UserMapper();
         try {
-            this.dataBases = mapperUtil.getDataBases();
-            this.xmlPath = mapperUtil.getXmlPath(TABLE_NAME);
+            integrationSettingList = mapperUtil.getIntegrationSettingList(className);
         } catch (ParserConfigurationException e) {
             e.printStackTrace();
         } catch (IOException e) {
@@ -56,9 +49,10 @@ public class UserServiceImpl implements UserService {
      */
     public List<User> getAllUser() throws ParserConfigurationException, SAXException, IOException {
         List<User> userList = new ArrayList<User>();
-        for(int i = 0; i < dataBases.size(); i++){
-            userMapper.setDataBase(dataBases.get(i));
-            userMapper.setXmlPath(xmlPath.get(i));
+        for(IntegrationSetting setting: integrationSettingList){
+            userMapper.setDataBase(setting.getDatabaseName());
+            userMapper.setTableName(setting.getTableName());
+            userMapper.setXmlPath(setting.getXmlPath());
             userList.addAll(userMapper.selectAllUser());
         }
         return userList;
@@ -74,9 +68,10 @@ public class UserServiceImpl implements UserService {
      */
     public User getUserById(String id) throws ParserConfigurationException, SAXException, IOException {
         User user = null;
-        for(int i = 0; i < dataBases.size(); i++){
-            userMapper.setDataBase(dataBases.get(i));
-            userMapper.setXmlPath(xmlPath.get(i));
+        for(IntegrationSetting setting: integrationSettingList){
+            userMapper.setDataBase(setting.getDatabaseName());
+            userMapper.setTableName(setting.getTableName());
+            userMapper.setXmlPath(setting.getXmlPath());
             user = userMapper.selectUserById(id);
             if(user.getId() != null && user.getId().length() > 0){
                 return user;
@@ -96,12 +91,16 @@ public class UserServiceImpl implements UserService {
      */
     public boolean insertUser(User user, String databaseName) throws ParserConfigurationException, SAXException, IOException {
         if (databaseName == null || databaseName.length() <= 0){
-            databaseName = dataBases.get(0);
+            throw new RuntimeException("未指定数据库");
         }
-        for(int i = 0; i < dataBases.size(); i++){
-            if(databaseName.equals(dataBases.get(i))){
-                userMapper.setXmlPath(xmlPath.get(i));
-                userMapper.setDataBase(databaseName);
+        if(user.getId() == null || user.getId().length() <= 0){
+            throw new RuntimeException("为指定插入学生的学号");
+        }
+        for(IntegrationSetting setting: integrationSettingList){
+            if(databaseName.equals(setting.getDatabaseName())) {
+                userMapper.setDataBase(setting.getDatabaseName());
+                userMapper.setTableName(setting.getTableName());
+                userMapper.setXmlPath(setting.getXmlPath());
                 if(userMapper.insertUser(user) > 0){
                     return  true;
                 }else{
@@ -125,9 +124,10 @@ public class UserServiceImpl implements UserService {
         if (user.getId() == null || user.getId().length() <= 0){
             throw new RuntimeException("更新错误：未传入用户id");
         }
-        for(int i = 0; i < dataBases.size(); i++){
-            userMapper.setDataBase(dataBases.get(i));
-            userMapper.setXmlPath(xmlPath.get(i));
+        for(IntegrationSetting setting: integrationSettingList){
+            userMapper.setDataBase(setting.getDatabaseName());
+            userMapper.setTableName(setting.getTableName());
+            userMapper.setXmlPath(setting.getXmlPath());
             if(userMapper.updateUser(user) > 0){
                 return true;
             }
@@ -147,9 +147,10 @@ public class UserServiceImpl implements UserService {
         if (id == null || id.length() <= 0){
             throw new RuntimeException("删除错误：未传入用户id");
         }
-        for(int i = 0; i < dataBases.size(); i++){
-            userMapper.setDataBase(dataBases.get(i));
-            userMapper.setXmlPath(xmlPath.get(i));
+        for(IntegrationSetting setting: integrationSettingList){
+            userMapper.setDataBase(setting.getDatabaseName());
+            userMapper.setTableName(setting.getTableName());
+            userMapper.setXmlPath(setting.getXmlPath());
             if(userMapper.deleteUser(id) > 0){
                 return true;
             }

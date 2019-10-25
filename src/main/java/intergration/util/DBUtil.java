@@ -67,11 +67,11 @@ public class DBUtil {
             connection = DriverManager.getConnection(URL, USERNAME, PASSWORD);
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
-            System.out.println("注册驱动失败");
+            System.out.println("注册数据库驱动失败");
             //logger.info("注册驱动失败");
         } catch (SQLException e) {
             e.printStackTrace();
-            System.out.println("获取连接失败");
+            System.out.println("获取数据库连接失败");
             //logger.info("获取连接失败");
         }
         return connection;

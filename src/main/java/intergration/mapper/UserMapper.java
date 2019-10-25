@@ -20,10 +20,9 @@ import java.util.List;
  */
 public class UserMapper {
 
-    private String dataBase = null;
-    private String xmlPath = null;
-    private static final String tableName = "users";
-    String a = User.class.getName();
+    private String dataBase;
+    private String xmlPath;
+    private String tableName;
 
     public List<User> selectAllUser() throws IOException, SAXException, ParserConfigurationException {
         List<User> userList = new ArrayList<User>();
@@ -32,10 +31,12 @@ public class UserMapper {
         mapperUtil.setXmlFilePath(xmlPath);
         //jdbc工具类设置数据库并获取连接
         DBUtil.setDataBase(dataBase);
+        String sql = "select * from " + tableName;
+
         Connection connection = DBUtil.getConnect();
         try {
             Statement statement = connection.createStatement();
-            ResultSet resultSet =  statement.executeQuery("select * from " + tableName);
+            ResultSet resultSet =  statement.executeQuery(sql);
             User user = null;
             while (resultSet.next()){
                 user = new User();
@@ -63,7 +64,6 @@ public class UserMapper {
         //jdbc工具类设置数据库并获取连接
         DBUtil.setDataBase(dataBase);
         Connection connection = DBUtil.getConnect();
-
         try {
             Statement statement = connection.createStatement();
             ResultSet resultSet =  statement.executeQuery("select * from "+ tableName + " where " + mapperUtil.getColumnName("id") + "=" + id);
@@ -168,4 +168,16 @@ public class UserMapper {
         this.xmlPath = xmlPath;
     }
 
+    public void setTableName(String tableName) {
+        this.tableName = tableName;
+    }
+
+    @Override
+    public String toString() {
+        return "UserMapper{" +
+                "dataBase='" + dataBase + '\'' +
+                ", xmlPath='" + xmlPath + '\'' +
+                ", tableName='" + tableName + '\'' +
+                '}';
+    }
 }
