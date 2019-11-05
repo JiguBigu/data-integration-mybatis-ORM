@@ -22,13 +22,13 @@ import java.util.Map;
  * @version 1.0
  * @date 2019/10/13 20:30
  */
-@WebServlet(name = "lesson/getLessonById")
+@WebServlet("/lesson/getLessonById")
 public class GetLessonById extends HttpServlet {
     private boolean success = false;
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String id = req.getParameter("id");
+        String id = req.getParameter("lessonId");
 
         LessonService lessonService = new LessonServiceImpl();
         Map<String, Object> modelMap = new HashMap<String, Object>();

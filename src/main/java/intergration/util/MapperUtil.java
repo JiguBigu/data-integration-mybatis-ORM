@@ -31,15 +31,9 @@ public class MapperUtil {
     }
 
     public String getColumnName(String property) throws ParserConfigurationException, IOException, SAXException {
-        //相对路径解析
-        InputStream instream = this.getClass().getResourceAsStream(xmlFilePath);
         String columnName = null;
-        // 创建文档构建器工厂(采用单例模式)
-        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-        // 创建文档构建器
-        DocumentBuilder builder = factory.newDocumentBuilder();
         // 由xml文件创建文档对象
-        org.w3c.dom.Document document = builder.parse(instream);
+        org.w3c.dom.Document document = getDocument(xmlFilePath);
         // 获得根节点<mapper>
         org.w3c.dom.Element root = document.getDocumentElement();
         // 获得一级子节点列表
@@ -68,14 +62,8 @@ public class MapperUtil {
     public String getColumnList() throws ParserConfigurationException, IOException, SAXException {
         StringBuilder columnList = new StringBuilder();
         columnList.append("(");
-        // 创建文档构建器工厂(采用单例模式)
-        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-        // 创建文档构建器
-        DocumentBuilder builder = factory.newDocumentBuilder();
-        //相对路径解析
-        InputStream instream = this.getClass().getResourceAsStream(xmlFilePath);
         // 由xml文件创建文档对象
-        Document document = builder.parse(instream);
+        Document document = getDocument(xmlFilePath);
         // 获得根节点<mapper>
         Element root = document.getDocumentElement();
         // 获得一级子节点列表
@@ -101,14 +89,8 @@ public class MapperUtil {
 
     public List<String> getXmlPath(String tableName) throws ParserConfigurationException, IOException, SAXException {
         List<String> xmlPath = new ArrayList<String>();
-        // 创建文档构建器工厂(采用单例模式)
-        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-        //相对路径解析
-        InputStream instream = this.getClass().getResourceAsStream(settingPath);
-        // 创建文档构建器
-        DocumentBuilder builder = factory.newDocumentBuilder();
-        // 由xml文件创建文档对象
-        Document document = builder.parse(instream);
+        // 由setting文件创建文档对象
+        Document document = getDocument(settingPath);
         // 获得根节点<setting>
         Element root = document.getDocumentElement();
         // 获得一级子节点列表
@@ -133,14 +115,8 @@ public class MapperUtil {
 
     public List<String> getDataBases() throws ParserConfigurationException, IOException, SAXException {
         List<String> databases = new ArrayList<String>();
-        // 创建文档构建器工厂(采用单例模式)
-        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-        //相对路径解析
-        InputStream instream = this.getClass().getResourceAsStream(settingPath);
-        // 创建文档构建器
-        DocumentBuilder builder = factory.newDocumentBuilder();
-        // 由xml文件创建文档对象
-        org.w3c.dom.Document document = builder.parse(instream);
+        // 由setting文件创建文档对象
+        org.w3c.dom.Document document = getDocument(settingPath);
         // 获得根节点<setting>
         org.w3c.dom.Element root = document.getDocumentElement();
         // 获得一级子节点列表
@@ -161,14 +137,8 @@ public class MapperUtil {
 
     public List<IntegrationSetting> getIntegrationSettingList(String className) throws ParserConfigurationException, IOException, SAXException {
         List<IntegrationSetting> integrationSettingList = new ArrayList<IntegrationSetting>();
-        //相对路径解析
-        InputStream instream = this.getClass().getResourceAsStream(settingPath);
-        // 创建文档构建器工厂(采用单例模式)
-        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-        // 创建文档构建器
-        DocumentBuilder builder = factory.newDocumentBuilder();
-        // 由xml文件创建文档对象
-        Document document = builder.parse(instream);
+        // 由setting文件创建文档对象
+        Document document = getDocument(settingPath);
         // 获得根节点<setting>
         Element root = document.getDocumentElement();
         // 获得一级子节点列表
@@ -188,7 +158,6 @@ public class MapperUtil {
                     Node secondLevelNode = secondLevelList.item(j);
                     if(secondLevelNode.getNodeType() == Node.ELEMENT_NODE &&
                             className.equals(secondLevelNode.getAttributes().getNamedItem("entityType").getTextContent())){
-                        //todo
                         setting.setTableName(secondLevelNode.getAttributes().getNamedItem("id").getTextContent());
                         setting.setXmlPath(secondLevelNode.getTextContent());
                     }
@@ -199,16 +168,30 @@ public class MapperUtil {
         return integrationSettingList;
     }
 
-    public List<IntegrationSetting> test() throws IOException, SAXException, ParserConfigurationException {
-        System.out.println();
-        return getIntegrationSettingList(User.class.getName());
+
+    private Document getDocument(String path) throws ParserConfigurationException, IOException, SAXException {
+        // 相对路径解析
+        InputStream instream = this.getClass().getResourceAsStream(path);
+        // 创建文档构建器工厂(采用单例模式)
+        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+        // 创建文档构建器
+        DocumentBuilder builder = factory.newDocumentBuilder();
+        // 根据path对应文件创建文档对象
+        Document document = builder.parse(instream);
+
+        return document;
+
     }
 
-    public static void main(String[] args) throws ParserConfigurationException, SAXException, IOException {
-       List<IntegrationSetting>integrationSettingList = new MapperUtil().test();
-        MapperUtil mapperUtil = new MapperUtil();
-        mapperUtil.setXmlFilePath(integrationSettingList.get(0).getXmlPath());
-        System.out.println(mapperUtil.xmlFilePath);
-        System.out.println(mapperUtil.getColumnName("id"));
-    }
+//    public List<IntegrationSetting> test() throws IOException, SAXException, ParserConfigurationException {
+//        System.out.println();
+//        return getIntegrationSettingList(User.class.getName());
+//    }
+//    public static void main(String[] args) throws ParserConfigurationException, SAXException, IOException {
+//       List<IntegrationSetting>integrationSettingList = new MapperUtil().test();
+//        MapperUtil mapperUtil = new MapperUtil();
+//        mapperUtil.setXmlFilePath(integrationSettingList.get(0).getXmlPath());
+//        System.out.println(mapperUtil.xmlFilePath);
+//        System.out.println(mapperUtil.getColumnName("id"));
+//    }
 }

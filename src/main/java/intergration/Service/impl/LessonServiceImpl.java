@@ -3,6 +3,8 @@ package intergration.Service.impl;
 import intergration.Service.LessonService;
 import intergration.entity.Lesson;
 import intergration.mapper.LessonMapper;
+import intergration.share.IntegrationSetting;
+import intergration.util.MapperUtil;
 import org.xml.sax.SAXException;
 
 import javax.xml.parsers.ParserConfigurationException;
@@ -17,20 +19,21 @@ import java.util.List;
  */
 public class LessonServiceImpl implements LessonService {
     private LessonMapper lessonMapper;
-    /**
-     * 数据库名
-     */
-    private String[] dataBases = {"test1", "test2"};
-    /**
-     * 对应数据库的xml文件路径
-     */
-    private String[] xmlPath = {
-            "/xml/database1/lesson.xml",
-            "/xml/database2/lesson.xml"
-    };
+    private List<IntegrationSetting> integrationSettingList;
+    private final String className = Lesson.class.getName();
 
     public LessonServiceImpl() {
+        MapperUtil mapperUtil = new MapperUtil();
         this.lessonMapper = new LessonMapper();
+        try {
+            integrationSettingList = mapperUtil.getIntegrationSettingList(className);
+        } catch (ParserConfigurationException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (SAXException e) {
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -42,10 +45,16 @@ public class LessonServiceImpl implements LessonService {
      */
     public List<Lesson> getAllLesson() throws ParserConfigurationException, SAXException, IOException {
         List<Lesson> lessonList = new ArrayList<Lesson>();
-        for(int i = 0; i < dataBases.length; i++){
-            lessonMapper.setDataBase(dataBases[i]);
-            lessonMapper.setXmlPath(xmlPath[i]);
+        for(IntegrationSetting setting: integrationSettingList){
+            lessonMapper.setTableName(setting.getTableName());
+            lessonMapper.setDataBase(setting.getDatabaseName());
+            lessonMapper.setXmlPath(setting.getXmlPath());
             lessonList.addAll(lessonMapper.selectAllLesson());
+        }
+        for(IntegrationSetting setting: integrationSettingList){
+            lessonMapper.setTableName(setting.getTableName());
+            lessonMapper.setDataBase(setting.getDatabaseName());
+            lessonMapper.setXmlPath(setting.getXmlPath());
         }
         return lessonList;
     }
@@ -60,9 +69,10 @@ public class LessonServiceImpl implements LessonService {
      */
     public Lesson getLessonById(String id) throws ParserConfigurationException, SAXException, IOException {
         Lesson lesson = null;
-        for(int i = 0; i < dataBases.length; i++){
-            lessonMapper.setDataBase(dataBases[i]);
-            lessonMapper.setXmlPath(xmlPath[i]);
+        for(IntegrationSetting setting: integrationSettingList){
+            lessonMapper.setTableName(setting.getTableName());
+            lessonMapper.setDataBase(setting.getDatabaseName());
+            lessonMapper.setXmlPath(setting.getXmlPath());
             lesson = lessonMapper.selectLessonById(id);
             if(lesson.getLessonId() != null && lesson.getLessonId().length() > 0){
                 return  lesson;
@@ -82,12 +92,17 @@ public class LessonServiceImpl implements LessonService {
      */
     public boolean insertLesson(Lesson lesson, String databaseName) throws ParserConfigurationException, SAXException, IOException {
         if (databaseName == null || databaseName.length() <= 0){
-            databaseName = dataBases[0];
+            throw new RuntimeException("未指定插入数据库");
         }
-        for(int i = 0; i < xmlPath.length; i++){
-            if(databaseName.equals(dataBases[i])){
-                lessonMapper.setXmlPath(xmlPath[i]);
-                lessonMapper.setDataBase(databaseName);
+        if (lesson.getLessonId() == null || lesson.getLessonId().length() <= 0){
+            throw new RuntimeException("未指定插入的学号");
+        }
+
+        for(IntegrationSetting setting: integrationSettingList){
+            if(databaseName.equals(setting.getDatabaseName())){
+                lessonMapper.setTableName(setting.getTableName());
+                lessonMapper.setDataBase(setting.getDatabaseName());
+                lessonMapper.setXmlPath(setting.getXmlPath());
                 if(lessonMapper.insertLesson(lesson) > 0){
                     return  true;
                 }else{
@@ -95,6 +110,7 @@ public class LessonServiceImpl implements LessonService {
                 }
             }
         }
+
         return false;
     }
 
@@ -111,9 +127,10 @@ public class LessonServiceImpl implements LessonService {
         if (lesson.getLessonId() == null || lesson.getLessonId().length() <= 0){
             throw new RuntimeException("更新错误：未传入课程id");
         }
-        for(int i = 0; i < dataBases.length; i++){
-            lessonMapper.setDataBase(dataBases[i]);
-            lessonMapper.setXmlPath(xmlPath[i]);
+        for(IntegrationSetting setting: integrationSettingList){
+            lessonMapper.setTableName(setting.getTableName());
+            lessonMapper.setDataBase(setting.getDatabaseName());
+            lessonMapper.setXmlPath(setting.getXmlPath());
             if(lessonMapper.updateLesson(lesson) > 0){
                 return true;
             }
@@ -133,9 +150,10 @@ public class LessonServiceImpl implements LessonService {
         if (id == null || id.length() <= 0){
             throw new RuntimeException("删除错误：未传入课程id");
         }
-        for(int i = 0; i < dataBases.length; i++){
-            lessonMapper.setDataBase(dataBases[i]);
-            lessonMapper.setXmlPath(xmlPath[i]);
+        for(IntegrationSetting setting: integrationSettingList){
+            lessonMapper.setTableName(setting.getTableName());
+            lessonMapper.setDataBase(setting.getDatabaseName());
+            lessonMapper.setXmlPath(setting.getXmlPath());
             if(lessonMapper.deleteLesson(id) > 0){
                 return true;
             }

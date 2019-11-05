@@ -30,7 +30,7 @@ public class DeleteUserById extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String id = req.getParameter("UserId");
+        String id = req.getParameter("userId");
         Map<String, Object> modelMap = new HashMap<String, Object>();
         try {
             if(userService.deleteUserById(id)){

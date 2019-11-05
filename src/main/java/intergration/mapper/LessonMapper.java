@@ -19,18 +19,18 @@ import java.util.List;
  */
 public class LessonMapper {
 
-
-    private String dataBase = null;
-    private String xmlPath = null;
-    private String tableName = "lesson";
-
-    public void setDataBase(String dataBase) {
-        this.dataBase = dataBase;
-    }
-
-    public void setXmlPath(String xmlPath) {
-        this.xmlPath = xmlPath;
-    }
+    /**
+     * 数据库名
+     */
+    private String dataBase;
+    /**
+     * 表名
+     */
+    private String tableName;
+    /**
+     * 对应表的XML文件路径
+     */
+    private String xmlPath;
 
     public List<Lesson> selectAllLesson() throws IOException, SAXException, ParserConfigurationException {
         List<Lesson> lessonList = new ArrayList<Lesson>();
@@ -68,10 +68,9 @@ public class LessonMapper {
         //jdbc工具类设置数据库并获取连接
         DBUtil.setDataBase(dataBase);
         Connection connection = DBUtil.getConnect();
-
         try {
             Statement statement = connection.createStatement();
-            ResultSet resultSet =  statement.executeQuery("select * from "+ tableName + " where " + mapperUtil.getColumnName("id") + "=" + id);
+            ResultSet resultSet =  statement.executeQuery("select * from "+ tableName + " where " + mapperUtil.getColumnName("lessonId") + "=" + id);
             while (resultSet.next()){
                 Field[] fields = lesson.getClass().getDeclaredFields();
                 for(int i = 0; i < fields.length; i++){
@@ -164,5 +163,16 @@ public class LessonMapper {
         return isUpdate;
     }
 
+    public void setTableName(String tableName) {
+        this.tableName = tableName;
+    }
+
+    public void setDataBase(String dataBase) {
+        this.dataBase = dataBase;
+    }
+
+    public void setXmlPath(String xmlPath) {
+        this.xmlPath = xmlPath;
+    }
 
 }
