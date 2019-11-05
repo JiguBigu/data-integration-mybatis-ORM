@@ -24,13 +24,13 @@ import java.util.Map;
 public class UserServiceImpl implements UserService {
     private UserMapper userMapper;
     private List<IntegrationSetting> integrationSettingList;
-    private static final String className = User.class.getName();
+    private static final String CLASS_NAME = User.class.getName();
 
     public UserServiceImpl(){
         MapperUtil mapperUtil = new MapperUtil();
         this.userMapper = new UserMapper();
         try {
-            integrationSettingList = mapperUtil.getIntegrationSettingList(className);
+            integrationSettingList = mapperUtil.getIntegrationSettingList(CLASS_NAME);
         } catch (ParserConfigurationException e) {
             e.printStackTrace();
         } catch (IOException e) {
@@ -42,10 +42,7 @@ public class UserServiceImpl implements UserService {
 
     /**
      * 获取所有数据库中的用户数据
-     * @return
-     * @throws ParserConfigurationException
-     * @throws SAXException
-     * @throws IOException
+     * @return 学生列表
      */
     public List<User> getAllUser() throws ParserConfigurationException, SAXException, IOException {
         List<User> userList = new ArrayList<User>();
@@ -61,13 +58,10 @@ public class UserServiceImpl implements UserService {
     /**
      * 通过用户学号查询用户信息
      * @param id 学号
-     * @return
-     * @throws ParserConfigurationException
-     * @throws SAXException
-     * @throws IOException
+     * @return 学生
      */
     public User getUserById(String id) throws ParserConfigurationException, SAXException, IOException {
-        User user = null;
+        User user;
         for(IntegrationSetting setting: integrationSettingList){
             userMapper.setDataBase(setting.getDatabaseName());
             userMapper.setTableName(setting.getTableName());
@@ -84,10 +78,7 @@ public class UserServiceImpl implements UserService {
      * 向数据库中插入学生信息
      * @param user 学生实体
      * @param databaseName 数据库名
-     * @return
-     * @throws ParserConfigurationException
-     * @throws SAXException
-     * @throws IOException
+     * @return 成功标志
      */
     public boolean insertUser(User user, String databaseName) throws ParserConfigurationException, SAXException, IOException {
         if (databaseName == null || databaseName.length() <= 0){
@@ -114,11 +105,7 @@ public class UserServiceImpl implements UserService {
     /**
      * 更新学生信息
      * @param user 学生实体
-     * @return
-     * @throws IOException
-     * @throws ParserConfigurationException
-     * @throws SAXException
-     * @throws IllegalAccessException
+     * @return 成功标志
      */
     public boolean updateUser(User user) throws IOException, ParserConfigurationException, SAXException, IllegalAccessException {
         if (user.getId() == null || user.getId().length() <= 0){
@@ -138,10 +125,7 @@ public class UserServiceImpl implements UserService {
     /**
      * 根据学号删除学生
      * @param id 学号
-     * @return
-     * @throws ParserConfigurationException
-     * @throws SAXException
-     * @throws IOException
+     * @return 成功标志
      */
     public boolean deleteUserById(String id) throws ParserConfigurationException, SAXException, IOException {
         if (id == null || id.length() <= 0){

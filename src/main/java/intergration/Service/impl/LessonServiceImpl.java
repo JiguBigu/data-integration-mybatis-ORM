@@ -20,13 +20,13 @@ import java.util.List;
 public class LessonServiceImpl implements LessonService {
     private LessonMapper lessonMapper;
     private List<IntegrationSetting> integrationSettingList;
-    private final String className = Lesson.class.getName();
+    private final String CLASS_NAME = Lesson.class.getName();
 
     public LessonServiceImpl() {
         MapperUtil mapperUtil = new MapperUtil();
         this.lessonMapper = new LessonMapper();
         try {
-            integrationSettingList = mapperUtil.getIntegrationSettingList(className);
+            integrationSettingList = mapperUtil.getIntegrationSettingList(CLASS_NAME);
         } catch (ParserConfigurationException e) {
             e.printStackTrace();
         } catch (IOException e) {
@@ -38,10 +38,7 @@ public class LessonServiceImpl implements LessonService {
 
     /**
      * 获取所有数据库中的课程数据
-     * @return
-     * @throws ParserConfigurationException
-     * @throws SAXException
-     * @throws IOException
+     * @return 课程列表
      */
     public List<Lesson> getAllLesson() throws ParserConfigurationException, SAXException, IOException {
         List<Lesson> lessonList = new ArrayList<Lesson>();
@@ -62,13 +59,10 @@ public class LessonServiceImpl implements LessonService {
     /**
      * 通过课程号查询课程信息
      * @param id 课程
-     * @return
-     * @throws ParserConfigurationException
-     * @throws SAXException
-     * @throws IOException
+     * @return 课程
      */
     public Lesson getLessonById(String id) throws ParserConfigurationException, SAXException, IOException {
-        Lesson lesson = null;
+        Lesson lesson;
         for(IntegrationSetting setting: integrationSettingList){
             lessonMapper.setTableName(setting.getTableName());
             lessonMapper.setDataBase(setting.getDatabaseName());
@@ -85,10 +79,7 @@ public class LessonServiceImpl implements LessonService {
      * 向数据库中插入课程信息
      * @param lesson 课程实体
      * @param databaseName 数据库名
-     * @return
-     * @throws ParserConfigurationException
-     * @throws SAXException
-     * @throws IOException
+     * @return 成功标志
      */
     public boolean insertLesson(Lesson lesson, String databaseName) throws ParserConfigurationException, SAXException, IOException {
         if (databaseName == null || databaseName.length() <= 0){
@@ -117,11 +108,7 @@ public class LessonServiceImpl implements LessonService {
     /**
      * 更新课程信息
      * @param lesson 课程实体
-     * @return
-     * @throws IOException
-     * @throws ParserConfigurationException
-     * @throws SAXException
-     * @throws IllegalAccessException
+     * @return 成功标志
      */
     public boolean updateLesson(Lesson lesson) throws IOException, ParserConfigurationException, SAXException, IllegalAccessException {
         if (lesson.getLessonId() == null || lesson.getLessonId().length() <= 0){
@@ -141,10 +128,7 @@ public class LessonServiceImpl implements LessonService {
     /**
      * 根据课程号删除课程
      * @param id 课程号
-     * @return
-     * @throws ParserConfigurationException
-     * @throws SAXException
-     * @throws IOException
+     * @return 成功标志
      */
     public boolean deleteLessonById(String id) throws ParserConfigurationException, SAXException, IOException {
         if (id == null || id.length() <= 0){
