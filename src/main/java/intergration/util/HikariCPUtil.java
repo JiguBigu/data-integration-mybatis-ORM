@@ -74,26 +74,6 @@ public  class HikariCPUtil {
         return hikariCPUtil;
     }
 
-//
-//   static {
-//       try {
-//           List<String> databases = new MapperUtil().getDataBases();
-//           for(String database: databases){
-//               setDataBase(database);
-//               HikariConfig hikariConfig = getHikariConfig();
-//               HikariDataSource dataSource = new HikariDataSource(hikariConfig);
-//               dataSources.put(database, dataSource);
-//           }
-//
-//       } catch (ParserConfigurationException e) {
-//           e.printStackTrace();
-//       } catch (IOException e) {
-//           e.printStackTrace();
-//       } catch (SAXException e) {
-//           e.printStackTrace();
-//       }
-//   }
-
     public  Connection getConnect(String database) {
         HikariDataSource hikariDataSource = dataSources.get(database);
         try {

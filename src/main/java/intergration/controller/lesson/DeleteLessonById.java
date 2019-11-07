@@ -23,7 +23,6 @@ import java.util.Map;
  */
 @WebServlet("/lesson/deleteLessonById")
 public class DeleteLessonById extends HttpServlet {
-    private boolean success = false;
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -31,6 +30,7 @@ public class DeleteLessonById extends HttpServlet {
 
         LessonService lessonService = new LessonServiceImpl();
         Map<String, Object> modelMap = new HashMap<String, Object>();
+        boolean success = false;
         try {
             if(lessonService.deleteLessonById(id)){
                 success = true;

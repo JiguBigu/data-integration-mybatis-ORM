@@ -24,13 +24,13 @@ import java.util.Map;
  */
 @WebServlet("/user/getUserById")
 public class GetUserById extends HttpServlet {
-    private boolean success = false;
-    private UserService userService = new UserServiceImpl();
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String id = req.getParameter("userId");
 
+        boolean success = false;
+        UserService userService = new UserServiceImpl();
         Map<String, Object> modelMap = new HashMap<String, Object>();
         User user = null;
         try {

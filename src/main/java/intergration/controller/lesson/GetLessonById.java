@@ -24,7 +24,6 @@ import java.util.Map;
  */
 @WebServlet("/lesson/getLessonById")
 public class GetLessonById extends HttpServlet {
-    private boolean success = false;
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -32,6 +31,7 @@ public class GetLessonById extends HttpServlet {
 
         LessonService lessonService = new LessonServiceImpl();
         Map<String, Object> modelMap = new HashMap<String, Object>();
+        boolean success = false;
         Lesson lesson = null;
         try {
             lesson = lessonService.getLessonById(id);

@@ -180,7 +180,6 @@ public class MapperUtil {
         Document document = builder.parse(instream);
 
         return document;
-
     }
 
 //    public List<IntegrationSetting> test() throws IOException, SAXException, ParserConfigurationException {

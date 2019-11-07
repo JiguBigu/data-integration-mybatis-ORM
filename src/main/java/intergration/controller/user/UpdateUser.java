@@ -24,14 +24,14 @@ import java.util.Map;
  */
 @WebServlet("/user/updateUser")
 public class UpdateUser extends HttpServlet {
-    private boolean success = false;
-    private UserService userService = new UserServiceImpl();
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         User user = new User(req.getParameter("userId"), req.getParameter("userName"),
                 req.getParameter("userSex"), req.getParameter("className"));
 
+        boolean success = false;
+        UserService userService = new UserServiceImpl();
         Map<String, Object> modelMap = new HashMap<String, Object>();
         try {
             if(userService.updateUser(user)){

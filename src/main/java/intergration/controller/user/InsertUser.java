@@ -24,8 +24,6 @@ import java.util.Map;
  */
 @WebServlet("/user/insertUser")
 public class InsertUser extends HttpServlet {
-    private boolean success = false;
-    private UserService userService = new UserServiceImpl();
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -33,6 +31,8 @@ public class InsertUser extends HttpServlet {
                 req.getParameter("userSex"), req.getParameter("className"));
         String databaseName = req.getParameter("databaseName");
 
+        boolean success = false;
+        UserService userService = new UserServiceImpl();
         Map<String, Object> modelMap = new HashMap<String, Object>();
         try {
             if(userService.insertUser(user, databaseName)){
