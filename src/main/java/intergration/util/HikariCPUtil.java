@@ -37,7 +37,7 @@ public  class HikariCPUtil {
     /**
      * 连接的url
      */
-    private static String URL = "jdbc:mysql://localhost:3306/test1?serverTimezone=UTC&useUnicode=true&characterEncoding=utf-8&useSSL=true";
+    private static String URL;
     /**
      * 所有数据源
      */

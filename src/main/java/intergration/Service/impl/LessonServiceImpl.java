@@ -20,6 +20,7 @@ import java.util.List;
 public class LessonServiceImpl implements LessonService {
     private LessonMapper lessonMapper;
     private List<IntegrationSetting> integrationSettingList;
+    private static final String INSERT_ALL_FLAG= "所有库";
     private final String CLASS_NAME = Lesson.class.getName();
 
     public LessonServiceImpl() {
@@ -88,26 +89,39 @@ public class LessonServiceImpl implements LessonService {
         if (lesson.getLessonId() == null || lesson.getLessonId().length() <= 0){
             throw new RuntimeException("未指定插入的学号");
         }
-        if(("华中农业大学".equals(databaseName))){
-            databaseName = integrationSettingList.get(0).getDatabaseName();
-        }else {
-            databaseName = integrationSettingList.get(1).getDatabaseName();
+        //判断是否插入所有数据库
+        if(INSERT_ALL_FLAG.equals(databaseName)){
+            int count = 0;
+            for(IntegrationSetting setting: integrationSettingList){
+                    lessonMapper.setTableName(setting.getTableName());
+                    lessonMapper.setDataBase(setting.getDatabaseName());
+                    lessonMapper.setXmlPath(setting.getXmlPath());
+                    count += lessonMapper.insertLesson(lesson);
+            }
+            if(count == integrationSettingList.size()){
+                return true;
+            }
         }
-
-
-        for(IntegrationSetting setting: integrationSettingList){
-            if(databaseName.equals(setting.getDatabaseName())){
-                lessonMapper.setTableName(setting.getTableName());
-                lessonMapper.setDataBase(setting.getDatabaseName());
-                lessonMapper.setXmlPath(setting.getXmlPath());
-                if(lessonMapper.insertLesson(lesson) > 0){
-                    return  true;
-                }else{
-                    throw new RuntimeException("插入课程数据失败");
+        //插入指定数据库
+        else{
+            if(("华中农业大学".equals(databaseName))){
+                databaseName = integrationSettingList.get(0).getDatabaseName();
+            } else {
+                databaseName = integrationSettingList.get(1).getDatabaseName();
+            }
+            for(IntegrationSetting setting: integrationSettingList){
+                if(databaseName.equals(setting.getDatabaseName())){
+                    lessonMapper.setTableName(setting.getTableName());
+                    lessonMapper.setDataBase(setting.getDatabaseName());
+                    lessonMapper.setXmlPath(setting.getXmlPath());
+                    if(lessonMapper.insertLesson(lesson) > 0){
+                        return  true;
+                    }else{
+                        throw new RuntimeException("插入课程数据失败");
+                    }
                 }
             }
         }
-
         return false;
     }
 

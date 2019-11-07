@@ -47,6 +47,7 @@
                 <select id="option" class="form-control" style="width: 60%;">
                     <option>华中农业大学</option>
                     <option>中国地质大学(武汉)</option>
+                    <option>所有库</option>
                 </select>
             </div>
             <div class="modal-footer">

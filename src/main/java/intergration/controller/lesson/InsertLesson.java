@@ -31,7 +31,6 @@ public class InsertLesson extends HttpServlet {
         Lesson lesson = new Lesson(req.getParameter("lessonId"), req.getParameter("lessonName"),
                 req.getParameter("teacherName"), req.getParameter("hours"));
         String databaseName = req.getParameter("databaseName");
-        System.out.println(">>>>>>>>>>" + databaseName);
 
         Map<String, Object> modelMap = new HashMap<String, Object>();
         LessonService lessonService = new LessonServiceImpl();

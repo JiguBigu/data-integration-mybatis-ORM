@@ -1,5 +1,6 @@
 package intergration.util;
 
+import intergration.entity.User;
 import intergration.share.IntegrationSetting;
 import org.w3c.dom.*;
 import org.xml.sax.SAXException;
@@ -188,9 +189,6 @@ public class MapperUtil {
 //    }
 //    public static void main(String[] args) throws ParserConfigurationException, SAXException, IOException {
 //       List<IntegrationSetting>integrationSettingList = new MapperUtil().test();
-//        MapperUtil mapperUtil = new MapperUtil();
-//        mapperUtil.setXmlFilePath(integrationSettingList.get(0).getXmlPath());
-//        System.out.println(mapperUtil.xmlFilePath);
-//        System.out.println(mapperUtil.getColumnName("id"));
+//        System.out.println(integrationSettingList);
 //    }
 }
