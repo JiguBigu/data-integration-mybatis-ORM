@@ -1,8 +1,7 @@
 package intergration.mapper;
 
-import com.mysql.jdbc.StringUtils;
+
 import intergration.entity.User;
-import intergration.util.DBUtil;
 import intergration.util.HikariCPUtil;
 import intergration.util.MapperUtil;
 import org.xml.sax.SAXException;
@@ -63,6 +62,7 @@ public class UserMapper {
         MapperUtil mapperUtil = new MapperUtil();
         mapperUtil.setXmlFilePath(xmlPath);
         //通过Hikari连接池获取连接
+
         Connection connection = hikariCPUtil.getConnect(dataBase);
         //配置sql语句
         String sql = "select * from "+ tableName + " where " + mapperUtil.getColumnName("id") + "=" + id;

@@ -15,7 +15,7 @@ public class IntegrationSetting {
      */
     private String tableName;
     /**
-     * 表述表的XML文件路径
+     * 描述表的XML文件路径
      */
     private String xmlPath;
 

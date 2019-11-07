@@ -1,7 +1,7 @@
 package intergration.mapper;
 
 import intergration.entity.Lesson;
-import intergration.util.DBUtil;
+import intergration.util.HikariCPUtil;
 import intergration.util.MapperUtil;
 import org.xml.sax.SAXException;
 
@@ -31,18 +31,23 @@ public class LessonMapper {
      * 对应表的XML文件路径
      */
     private String xmlPath;
+    /**
+     * Hikari连接池工具类
+     */
+    private HikariCPUtil hikariCPUtil = HikariCPUtil.getHikariCPUtil();
 
     public List<Lesson> selectAllLesson() throws IOException, SAXException, ParserConfigurationException {
         List<Lesson> lessonList = new ArrayList<Lesson>();
         //创建映射工具类
         MapperUtil mapperUtil = new MapperUtil();
         mapperUtil.setXmlFilePath(xmlPath);
-        //jdbc工具类设置数据库并获取连接
-        DBUtil.setDataBase(dataBase);
-        Connection connection = DBUtil.getConnect();
+        //通过Hikari连接池获取连接
+        Connection connection = hikariCPUtil.getConnect(dataBase);
+        //配置sql语句
+        String sql = "select * from " + tableName;
         try {
             Statement statement = connection.createStatement();
-            ResultSet resultSet =  statement.executeQuery("select * from " + tableName);
+            ResultSet resultSet =  statement.executeQuery(sql);
             Lesson lesson = null;
             while (resultSet.next()){
                 lesson = new Lesson();
@@ -54,6 +59,7 @@ public class LessonMapper {
                 }
                 lessonList.add(lesson);
             }
+            connection.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -65,12 +71,13 @@ public class LessonMapper {
         //创建映射工具类
         MapperUtil mapperUtil = new MapperUtil();
         mapperUtil.setXmlFilePath(xmlPath);
-        //jdbc工具类设置数据库并获取连接
-        DBUtil.setDataBase(dataBase);
-        Connection connection = DBUtil.getConnect();
+        //通过Hikari连接池获取连接
+        Connection connection = hikariCPUtil.getConnect(dataBase);
+        //配置sql语句
+        String sql = "select * from "+ tableName + " where " + mapperUtil.getColumnName("lessonId") + "=" + id;
         try {
             Statement statement = connection.createStatement();
-            ResultSet resultSet =  statement.executeQuery("select * from "+ tableName + " where " + mapperUtil.getColumnName("lessonId") + "=" + id);
+            ResultSet resultSet =  statement.executeQuery(sql);
             while (resultSet.next()){
                 Field[] fields = lesson.getClass().getDeclaredFields();
                 for(int i = 0; i < fields.length; i++){
@@ -79,6 +86,7 @@ public class LessonMapper {
                     );
                 }
             }
+            connection.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -91,18 +99,15 @@ public class LessonMapper {
         //创建映射工具类
         MapperUtil mapperUtil = new MapperUtil();
         mapperUtil.setXmlFilePath(xmlPath);
-        //jdbc工具类设置数据库并获取连接
-        DBUtil.setDataBase(dataBase);
-        Connection connection = DBUtil.getConnect();
-
-
+        //通过Hikari连接池获取连接
+        Connection connection = hikariCPUtil.getConnect(dataBase);
+        //配置sql语句
         String sql = "insert into " + tableName + " "+ mapperUtil.getColumnList() + " values ( '" + lesson.getLessonId() + "','"
                 + lesson.getLessonName() + "','" + lesson.getTeacherName() + "','" + lesson.getHours() + "')";
 
         try {
             PreparedStatement statement = connection.prepareStatement(sql);
             isInsert = statement.executeUpdate();
-            statement.close();
             connection.close();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -114,16 +119,15 @@ public class LessonMapper {
         int isDelete = 0;
         MapperUtil mapperUtil = new MapperUtil();
         mapperUtil.setXmlFilePath(xmlPath);
-        DBUtil.setDataBase(dataBase);
-        Connection connection = DBUtil.getConnect();
-
+        //通过Hikari连接池获取连接
+        Connection connection = hikariCPUtil.getConnect(dataBase);
+        //配置sql语句
         String sql = "delete from " + tableName + " where " + mapperUtil.getColumnName("lessonId") + "=" + id;
 
         PreparedStatement statement = null;
         try {
             statement = connection.prepareStatement(sql);
             isDelete = statement.executeUpdate();
-            statement.close();
             connection.close();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -137,9 +141,8 @@ public class LessonMapper {
         //创建映射工具类
         MapperUtil mapperUtil = new MapperUtil();
         mapperUtil.setXmlFilePath(xmlPath);
-        //jdbc工具类设置数据库并获取连接
-        DBUtil.setDataBase(dataBase);
-        Connection connection = DBUtil.getConnect();
+        //通过Hikari连接池获取连接
+        Connection connection = hikariCPUtil.getConnect(dataBase);
 
         //反射构造sql语句
         StringBuilder sql = new StringBuilder("UPDATE " + tableName + " SET ");
@@ -155,7 +158,6 @@ public class LessonMapper {
         try {
             statement = connection.prepareStatement(sql.toString());
             isUpdate = statement.executeUpdate();
-            statement.close();
             connection.close();
         } catch (SQLException e) {
             e.printStackTrace();

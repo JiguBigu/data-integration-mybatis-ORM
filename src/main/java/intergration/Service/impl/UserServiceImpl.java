@@ -1,20 +1,16 @@
 package intergration.Service.impl;
 
-import com.alibaba.fastjson.JSONObject;
 import intergration.Service.UserService;
 import intergration.entity.User;
 import intergration.mapper.UserMapper;
 import intergration.share.IntegrationSetting;
-import intergration.util.DBUtil;
 import intergration.util.MapperUtil;
 import org.xml.sax.SAXException;
 
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * @author Jigubigu

@@ -25,7 +25,7 @@ public  class HikariCPUtil {
     /**
      * 日志工具
      */
-    private final static Logger logger = LoggerFactory.getLogger(DBUtil.class);
+    private final static Logger logger = LoggerFactory.getLogger(HikariCPUtil.class);
     /**
      * 数据库用户名
      */
