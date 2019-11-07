@@ -88,6 +88,12 @@ public class LessonServiceImpl implements LessonService {
         if (lesson.getLessonId() == null || lesson.getLessonId().length() <= 0){
             throw new RuntimeException("未指定插入的学号");
         }
+        if(("华中农业大学".equals(databaseName))){
+            databaseName = integrationSettingList.get(0).getDatabaseName();
+        }else {
+            databaseName = integrationSettingList.get(1).getDatabaseName();
+        }
+
 
         for(IntegrationSetting setting: integrationSettingList){
             if(databaseName.equals(setting.getDatabaseName())){

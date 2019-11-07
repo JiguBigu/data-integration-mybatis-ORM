@@ -30,18 +30,18 @@
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×
                 </button>
                 <h4 class="modal-title" id="insertModalLabel">
-                    插入学生信息
+                    插入课程信息
                 </h4>
             </div>
             <div class="modal-body">
-                <label class="control-label">学号:</label>
-                <input type="text" id="userId" class="form-control">
-                <label class="control-label">姓名:</label>
-                <input type="text" id="userName" class="form-control">
-                <label class="control-label">性别：</label>
-                <input type="text" id="userSex" class="form-control">
-                <label class="control-label">班级：</label>
-                <input type="text" id="className" class="form-control">
+                <label class="control-label">课程号:</label>
+                <input type="text" id="lessonId" class="form-control">
+                <label class="control-label">课程名:</label>
+                <input type="text" id="lessonName" class="form-control">
+                <label class="control-label">任课教师：</label>
+                <input type="text" id="teacherName" class="form-control">
+                <label class="control-label">学时：</label>
+                <input type="text" id="hours" class="form-control">
 
                 <label class="control-label">目标数据库：</label>
                 <select id="option" class="form-control" style="width: 60%;">
@@ -53,7 +53,7 @@
                 <button type="button" class="btn btn-default" id="btn-insert-close" data-dismiss="modal">
                     关闭
                 </button>
-                <button type="button" class="btn btn-primary" onclick="insertUser()">
+                <button type="button" class="btn btn-primary" onclick="insertLesson()">
                     插入
                 </button>
             </div>
@@ -69,24 +69,24 @@
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×
                 </button>
                 <h4 class="modal-title" id="modifyModalLabel">
-                    编辑学生信息
+                    编辑课程信息
                 </h4>
             </div>
             <div class="modal-body">
-                <label class="control-label">学号:</label>
-                <input type="text" disabled="disabled" id="userIdOfModify" class="form-control">
-                <label class="control-label">姓名:</label>
-                <input type="text" id="userNameOfModify" class="form-control">
-                <label class="control-label">性别：</label>
-                <input type="text" id="userSexOfModify" class="form-control">
-                <label class="control-label">班级：</label>
-                <input type="text" id="classNameOfModify" class="form-control">
+                <label class="control-label">课程号:</label>
+                <input type="text" disabled="disabled" id="lessonIdOfModify" class="form-control">
+                <label class="control-label">课程名:</label>
+                <input type="text" id="lessonNameOfModify" class="form-control">
+                <label class="control-label">任课教师：</label>
+                <input type="text" id="teacherNameOfModify" class="form-control">
+                <label class="control-label">学时：</label>
+                <input type="text" id="hoursOfModify" class="form-control">
             </div>
             <div class="modal-footer">
                 <button type="button" id="btn-query-close" class="btn btn-default" data-dismiss="modal">
                     关闭
                 </button>
-                <button type="button" class="btn btn-primary" onclick="updateUser()">
+                <button type="button" class="btn btn-primary" onclick="updateLesson()">
                     修改信息
                 </button>
             </div>
@@ -109,7 +109,7 @@
 
         <div id="main">
             <div>
-                <h2 class="sub-header">学生信息</h2>
+                <h2 class="sub-header">课程信息</h2>
             </div>
 
             <div class="alert alert-success" id="success-info">
@@ -125,7 +125,7 @@
 
             <div class="show">
                 <div class="form-inline">
-                    <button id="select_student" type="button" class="btn btn-info" onclick="getAllUser()">查询学生信息
+                    <button id="select_student" type="button" class="btn btn-info" onclick="getAllLesson()">查询课程信息
                     </button>
                     <button id="insert_student" type="button" class="btn btn-info" data-target="#insertModal"
                             data-toggle="modal" onclick="">插入信息
@@ -135,10 +135,10 @@
                     <table class="table table-striped">
                         <thead>
                         <tr>
-                            <th>学号</th>
-                            <th>姓名</th>
-                            <th>性别</th>
-                            <th>班级</th>
+                            <th>课程号</th>
+                            <th>课程名</th>
+                            <th>任课教师</th>
+                            <th>课时</th>
                             <th>编辑</th>
                         </tr>
                         </thead>
@@ -169,6 +169,6 @@
 <script src="../../assets/js/vendor/holder.min.js"></script>
 <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
 <script src="../../assets/js/ie10-viewport-bug-workaround.js"></script>
-<script src="js/user.js"></script>
+<script src="js/lesson.js"></script>
 </body>
 </html>

@@ -87,6 +87,12 @@ public class UserServiceImpl implements UserService {
         if(user.getId() == null || user.getId().length() <= 0){
             throw new RuntimeException("为指定插入学生的学号");
         }
+        if(("华中农业大学".equals(databaseName))){
+            databaseName = integrationSettingList.get(0).getDatabaseName();
+        }else {
+            databaseName = integrationSettingList.get(1).getDatabaseName();
+        }
+
         for(IntegrationSetting setting: integrationSettingList){
             if(databaseName.equals(setting.getDatabaseName())) {
                 userMapper.setDataBase(setting.getDatabaseName());
